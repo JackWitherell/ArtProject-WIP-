@@ -83,10 +83,7 @@ void listcolors(){
   strokeWeight(1);
   fill(245,215,215);
   stroke(0);
-  if (colors.length%lat==0){
-    rect(cartesian.getX()-1, cartesian.getY()-1, (dpb+2)*lat+2 , (colors.length/lat)*(dpb+2)+2);
-  }
-  else{rect(cartesian.getX()-1, cartesian.getY()-1, (dpb+2)*lat+2 , ((colors.length/lat)+1)*(dpb+2)+2);}
+  rect(cartesian.getX()-1, cartesian.getY()-1, (dpb+2)*lat+2 , ((colors.length+lat-1)/lat)*(dpb+2)+2);
   for (int i=0;i<colors.length;i++){
     fill(colors[i]);
     rect((i%lat)*(dpb+2)+1+cartesian.getX(),i/lat*(dpb+2)+1+cartesian.getY(),dpb,dpb);
