@@ -1,0 +1,23 @@
+int scWidth=800;
+int scHeight=800;
+
+class location
+  constructor location
+    x is x, y is y
+  setX, getX
+  setY, getY
+
+void settings
+
+void setup
+  print args
+  creates layer1
+
+void mouseclicked
+  gets color
+
+void draw
+  if mousepressed draw to
+  layer.
+  print layer
+  and then listcolors()

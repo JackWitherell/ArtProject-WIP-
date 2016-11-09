@@ -61,6 +61,10 @@ public class Location {
 }
 Location cartesian = new Location( 3, 3 );
 
+public class GridGUI{
+  
+}
+
 void settings(){
   size(scWidth,scHeight);
 }

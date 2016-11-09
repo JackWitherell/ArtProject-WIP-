@@ -1,0 +1,19 @@
+color selected;
+color []colors is a colortheme
+
+XXXXint lat = 4;
+XXXXint dpb = 12;
+
+PGraphics layer1;
+int layerX loc of layer1
+int layerY
+int layerWidth size of layer1
+int layerHeight
+
+Location cartesian (3,3)
+
+void listcolors
+XXXXprints out gui layer
+
+void getcolor
+XXXXgets color from position
