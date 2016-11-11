@@ -59,11 +59,51 @@ public class Location {
       return Y;
    }
 }
-Location cartesian = new Location( 3, 3 );
+Location cartesian = new Location( 2, 2 );
 
 public class GridGUI{
-  
+  Location location;
+  PGraphics paletteGUI;
+  color[]palettecolors;
+  public GridGUI(int x, int y, color [] colorlist){
+    location=new Location(x,y);
+    paletteGUI=createGraphics((dpb+2)*lat+3,((colorlist.length+lat-1)/lat)*(dpb+2)+3);
+  }
+  public GridGUI(Location local,color[]colorlist){
+    location=local;
+    paletteGUI=createGraphics((dpb+2)*lat+3,((colorlist.length+lat-1)/lat)*(dpb+2)+3);
+    paletteGUI.beginDraw();
+    paletteGUI.strokeWeight(1);
+    paletteGUI.fill(245,215,215);
+    paletteGUI.stroke(0);
+    paletteGUI.rect(0,0,(dpb+2)*lat+2,((colorlist.length+lat-1)/lat)*(dpb+2)+2);
+    for(int i=0; i<colors.length;i++){
+      paletteGUI.fill(colors[i]);
+      paletteGUI.rect((i%lat)*(dpb+2)+2,i/lat*(dpb+2)+2,dpb,dpb);
+    }
+    paletteGUI.endDraw();
+    palettecolors=colorlist;
+  }
+  public PGraphics display(){
+    return paletteGUI;
+  }
+  public Location getLocation(){
+    return location;
+  }
+  public color getColor(){
+    Location inGrid=new Location(mouseX-location.getX()-2,mouseY-location.getY()-2);
+    if(inGrid.getX()<paletteGUI.width-4){
+      if(inGrid.getY()<paletteGUI.height-4){
+        if(((inGrid.getY()-(inGrid.getY()%(dpb+2)))/(dpb+2))*lat+((inGrid.getX()-(inGrid.getX()%(dpb+2)))/(dpb+2))<palettecolors.length){
+          return palettecolors[((inGrid.getY()-(inGrid.getY()%(dpb+2)))/(dpb+2))*lat+((inGrid.getX()-(inGrid.getX()%(dpb+2)))/(dpb+2))];
+        }
+      }
+    }
+    return selected;
+  }
 }
+
+GridGUI defaultPalette;
 
 void settings(){
   size(scWidth,scHeight);
@@ -80,37 +120,13 @@ void setup(){
   }
   layer1=createGraphics(layerWidth,layerHeight);
   layer1.noSmooth();
-  
-}
-
-void listcolors(){
-  strokeWeight(1);
-  fill(245,215,215);
-  stroke(0);
-  rect(cartesian.getX()-1, cartesian.getY()-1, (dpb+2)*lat+2 , ((colors.length+lat-1)/lat)*(dpb+2)+2);
-  for (int i=0;i<colors.length;i++){
-    fill(colors[i]);
-    rect((i%lat)*(dpb+2)+1+cartesian.getX(),i/lat*(dpb+2)+1+cartesian.getY(),dpb,dpb);
-  }
-}
-
-color getColor(){
-  for (int i=0; i<lat; i++){
-    if(mouseX>(dpb+2)*i+1+cartesian.getX()&&mouseX<(dpb+2)*(i+1)-1+cartesian.getX()){
-      for (int h=0;h<colors.length/lat+1;h++){
-        if(mouseY>(dpb+2)*h+1+cartesian.getY()&&mouseY<(dpb+2)*(h+1)-1+cartesian.getY()){
-          if (h*lat+(i)<colors.length){
-            return colors[h*lat+i];
-          }
-        }
-      }
-    }
-  }
-  return selected;
+  defaultPalette=new GridGUI(cartesian,colors);
 }
 
 void mouseClicked(){
-    selected=getColor();
+    selected=defaultPalette.getColor();
+    System.out.println(hex(selected));
+    
 }
 
 void draw(){
@@ -135,5 +151,6 @@ void draw(){
   fill(255);
   rect(layerX-1,layerY-1,layerWidth+1,layerHeight+1);
   image(layer1,layerX,layerY);
-  listcolors();
+  image(defaultPalette.display(),defaultPalette.getLocation().getX(),defaultPalette.getLocation().getY());
+  //listcolors();
 }

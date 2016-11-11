@@ -10,10 +10,4 @@ int layerY
 int layerWidth size of layer1
 int layerHeight
 
-Location cartesian (3,3)
-
-void listcolors
-XXXXprints out gui layer
-
-void getcolor
-XXXXgets color from position
+Location cartesian (2,2)
